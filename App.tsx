@@ -1,10 +1,17 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
+import {MoviesListView} from 'react-native-movies-list';
 
 const App = () => {
   return (
     <View style={styles.container}>
-      <Text>Hello World</Text>
+      <MoviesListView
+        color="#f5f512"
+        style={{
+          width: 300,
+          height: 300,
+        }}
+      />
     </View>
   );
 };
