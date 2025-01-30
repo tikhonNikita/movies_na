@@ -1,0 +1,23 @@
+[versions]
+buildTools = "35.0.0"
+composeBom = "2025.01.01"
+minSdk = "24"
+compileSdk = "35"
+targetSdk = "34"
+ndk = "27.1.12297006"
+kotlin = "2.0.21"
+agp =   "8.2.2"
+reactNativeGradle = "0.72.0"
+
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+
+[libraries]
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+material3 = { module = "androidx.compose.material3:material3" }
+react-android = { module = "com.facebook.react:react-android" }
+react-native-gradle-plugin = { module = "com.facebook.react:react-native-gradle-plugin", version.ref = "reactNativeGradle" }
+ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }

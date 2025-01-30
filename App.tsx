@@ -6,7 +6,7 @@ const App = () => {
   return (
     <View style={styles.container}>
       <MoviesListView
-        color="#f5f512"
+        color="#f3a512"
         style={{
           width: 300,
           height: 300,
