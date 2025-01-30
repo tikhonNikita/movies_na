@@ -1,3 +1,7 @@
+plugins {
+    id 'org.jetbrains.kotlin.plugin.compose'
+}
+
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
@@ -106,9 +110,9 @@ android {
         }
     }
 
-//    buildFeatures {
-//        compose true
-//    }
+    buildFeatures {
+        compose true
+    }
 }
 
 dependencies {
@@ -121,12 +125,14 @@ dependencies {
         implementation jscFlavor
     }
 
-//    def composeBom = libs.compose.bom
-//    implementation composeBom
-//    androidTestImplementation composeBom
-//
-//    implementation libs.material3
-//
-//    implementation libs.ui.tooling.preview
-//    debugImplementation libs.ui.tooling
+    def composeBom = platform(libs.compose.bom)
+    implementation composeBom
+    androidTestImplementation composeBom
+
+    implementation libs.material3
+    implementation libs.ui
+
+    implementation libs.ui.tooling.preview
+    debugImplementation libs.ui.tooling
+
 }
