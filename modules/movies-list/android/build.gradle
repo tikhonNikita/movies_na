@@ -19,6 +19,9 @@ buildscript {
 def isNewArchitectureEnabled() {
   return rootProject.hasProperty("newArchEnabled") && rootProject.getProperty("newArchEnabled") == "true"
 }
+plugins {
+  id 'org.jetbrains.kotlin.plugin.compose'
+}
 
 apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
@@ -70,6 +73,10 @@ android {
     }
   }
 
+  buildFeatures {
+    compose true
+  }
+
   lintOptions {
     disable "GradleCompatible"
   }
@@ -95,12 +102,20 @@ repositories {
   mavenCentral()
   google()
 }
-
-def kotlin_version = getExtOrDefault("kotlinVersion")
-
 dependencies {
-  implementation "com.facebook.react:react-android"
-  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  implementation libs.facebook.react.android
+  implementation libs.kotlin.stdlib
+
+
+  def composeBom = platform(libs.compose.bom)
+  implementation composeBom
+  androidTestImplementation composeBom
+
+  implementation libs.material3
+  implementation libs.ui
+
+  implementation libs.ui.tooling.preview
+  debugImplementation libs.ui.tooling
 }
 
 if (isNewArchitectureEnabled()) {

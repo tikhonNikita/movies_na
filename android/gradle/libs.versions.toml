@@ -12,7 +12,9 @@ reactNativeGradle = "0.72.0"
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+facebook-react-android = { module = "com.facebook.react:react-android" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 material3 = { module = "androidx.compose.material3:material3" }
 react-android = { module = "com.facebook.react:react-android" }
 react-native-gradle-plugin = { module = "com.facebook.react:react-native-gradle-plugin", version.ref = "reactNativeGradle" }
