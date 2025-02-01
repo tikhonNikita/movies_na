@@ -11,31 +11,39 @@ import com.facebook.react.viewmanagers.MoviesListViewManagerDelegate
 
 @ReactModule(name = MoviesListViewManager.NAME)
 class MoviesListViewManager : SimpleViewManager<MoviesListView>(),
-  MoviesListViewManagerInterface<MoviesListView> {
-  private val mDelegate: ViewManagerDelegate<MoviesListView>
+    MoviesListViewManagerInterface<MoviesListView> {
+    private val mDelegate: ViewManagerDelegate<MoviesListView>
 
-  init {
-    mDelegate = MoviesListViewManagerDelegate(this)
-  }
+    init {
+        mDelegate = MoviesListViewManagerDelegate(this)
+    }
 
-  override fun getDelegate(): ViewManagerDelegate<MoviesListView>? {
-    return mDelegate
-  }
+    override fun getDelegate(): ViewManagerDelegate<MoviesListView>? {
+        return mDelegate
+    }
 
-  override fun getName(): String {
-    return NAME
-  }
+    override fun getName(): String {
+        return NAME
+    }
 
-  public override fun createViewInstance(context: ThemedReactContext): MoviesListView {
-    return MoviesListView(context)
-  }
+    public override fun createViewInstance(context: ThemedReactContext): MoviesListView {
+        val moviesListViewModel = MoviesListViewModel()
+        return MoviesListView(context, moviesListViewModel)
+    }
 
-  @ReactProp(name = "color")
-  override fun setColor(view: MoviesListView?, color: String?) {
-    view?.setBackgroundColor(Color.parseColor(color))
-  }
 
-  companion object {
-    const val NAME = "MoviesListView"
-  }
+    @ReactProp(name = "color")
+    override fun setColor(view: MoviesListView?, color: String?) {
+        view?.setBackgroundColor(Color.parseColor(color))
+    }
+
+    @ReactProp(name = "title")
+    override fun setTitle(view: MoviesListView?, title: String?) {
+        title?.let { view?.setTitle(it) }
+    }
+
+
+    companion object {
+        const val NAME = "MoviesListView"
+    }
 }

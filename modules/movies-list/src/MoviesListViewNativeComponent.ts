@@ -3,6 +3,7 @@ import type { ViewProps } from 'react-native';
 
 interface NativeProps extends ViewProps {
   color?: string;
+  title: string;
 }
 
 export default codegenNativeComponent<NativeProps>('MoviesListView');
