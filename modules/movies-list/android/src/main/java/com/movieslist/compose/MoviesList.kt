@@ -92,7 +92,7 @@ fun MoviesGrid(movies: List<Movie> = FakeMovies.movies) {
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(8.dp),
     ) {
-        items(movies) { movie ->
+        items(movies, key = {it.id}) { movie ->
             MovieGridItem(movie = movie)
         }
     }
