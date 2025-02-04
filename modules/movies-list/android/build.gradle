@@ -116,6 +116,11 @@ dependencies {
 
   implementation libs.ui.tooling.preview
   debugImplementation libs.ui.tooling
+
+  //coil dependency
+  implementation libs.coil.compose
+  implementation(libs.coil.network.okhttp)
+
 }
 
 if (isNewArchitectureEnabled()) {

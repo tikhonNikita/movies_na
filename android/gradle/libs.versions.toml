@@ -1,5 +1,6 @@
 [versions]
 buildTools = "35.0.0"
+coilCompose = "3.0.4"
 composeBom = "2025.01.01"
 minSdk = "24"
 compileSdk = "35"
@@ -11,6 +12,8 @@ reactNativeGradle = "0.72.0"
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 facebook-react-android = { module = "com.facebook.react:react-android" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

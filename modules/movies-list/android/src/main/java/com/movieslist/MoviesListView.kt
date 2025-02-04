@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.compose.ui.platform.ComposeView
-import com.movieslist.compose.MoviesListViewContent
+import com.movieslist.compose.MoviesListRootComposeView
 
 class MoviesListView : FrameLayout {
     private var viewModel: MoviesListViewModel? = null
@@ -28,7 +28,7 @@ class MoviesListView : FrameLayout {
         viewModel?.let {
             val composeView = ComposeView(context).apply {
                 setContent {
-                    MoviesListViewContent(it)
+                    MoviesListRootComposeView(it)
                 }
             }
             addView(
