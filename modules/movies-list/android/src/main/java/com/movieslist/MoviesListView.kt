@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.compose.ui.platform.ComposeView
-import com.movieslist.compose.MoviesListRootComposeView
+import com.movieslist.ui.compose.MoviesListRootComposeView
 
 class MoviesListView : FrameLayout {
     private var viewModel: MoviesListViewModel? = null
