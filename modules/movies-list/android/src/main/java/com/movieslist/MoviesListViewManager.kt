@@ -31,18 +31,6 @@ class MoviesListViewManager : SimpleViewManager<MoviesListView>(),
         return MoviesListView(context, moviesListViewModel)
     }
 
-
-    @ReactProp(name = "color")
-    override fun setColor(view: MoviesListView?, color: String?) {
-        view?.setBackgroundColor(Color.parseColor(color))
-    }
-
-    @ReactProp(name = "title")
-    override fun setTitle(view: MoviesListView?, title: String?) {
-        title?.let { view?.setTitle(it) }
-    }
-
-
     companion object {
         const val NAME = "MoviesListView"
     }

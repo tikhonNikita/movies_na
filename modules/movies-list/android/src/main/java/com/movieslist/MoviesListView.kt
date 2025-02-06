@@ -40,8 +40,4 @@ class MoviesListView : FrameLayout {
             )
         }
     }
-
-    fun setTitle(title: String) {
-        viewModel?.setTitle(title)
-    }
 }
