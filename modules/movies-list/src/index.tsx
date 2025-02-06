@@ -1,2 +1,2 @@
-export { default as MoviesListView } from './MoviesListViewNativeComponent';
-export * from './MoviesListViewNativeComponent';
+export { MovieListView, MoviesState } from './MovieListView';
+export type { MovieCodegenType } from './MoviesListViewNativeComponent';

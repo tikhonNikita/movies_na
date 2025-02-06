@@ -1,6 +1,7 @@
 package com.movieslist
 
 import android.graphics.Color
+import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
@@ -33,5 +34,9 @@ class MoviesListViewManager : SimpleViewManager<MoviesListView>(),
 
     companion object {
         const val NAME = "MoviesListView"
+    }
+
+    override fun setMoviesState(view: MoviesListView?, value: ReadableMap?) {
+        println(value)
     }
 }
