@@ -79,7 +79,7 @@ fun MovieGridItem(movie: Movie) {
 }
 
 @Composable
-fun MoviesGrid(movies: List<Movie> = FakeMovies.movies) {
+fun MoviesGrid(movies: List<Movie>) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = Dimens.gridColumnsMinSize),
         modifier = Modifier.fillMaxSize(),

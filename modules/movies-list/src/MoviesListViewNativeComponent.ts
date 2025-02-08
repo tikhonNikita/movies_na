@@ -16,7 +16,7 @@ export type MovieCodegenType = {
 };
 
 export type MovieListStateCodegenType = {
-  state?: string;
+  state: string;
   data?: MovieCodegenType[];
   canLoadMore?: boolean;
   message?: string;

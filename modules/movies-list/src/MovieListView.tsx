@@ -7,7 +7,8 @@ import { ViewProps } from 'react-native';
 export enum MoviesState {
     Loading = 'Loading',
     Success = 'Success',
-    MoreMoviesLoaded = 'MoreMoviesLoaded',
+    MoreMoviesLoaded = 'success_more',
+    LoadingMoreMovies = 'loading_more',
     Error = 'Error',
     Empty = 'Empty'
 }
@@ -17,7 +18,8 @@ export type MovieListState =
     | { state: MoviesState.Success; data: MovieCodegenType[]; canLoadMore: boolean }
     | { state: MoviesState.MoreMoviesLoaded; data: MovieCodegenType[]; canLoadMore: boolean }
     | { state: MoviesState.Error; message?: string }
-    | { state: MoviesState.Empty };
+    | { state: MoviesState.Empty }
+    | { state: MoviesState.LoadingMoreMovies }
 
 
 interface MovieListProps {

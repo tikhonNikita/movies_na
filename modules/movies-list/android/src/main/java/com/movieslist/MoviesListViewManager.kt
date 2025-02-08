@@ -1,6 +1,7 @@
 package com.movieslist
 
 import android.graphics.Color
+import android.util.Log
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
@@ -37,6 +38,8 @@ class MoviesListViewManager : SimpleViewManager<MoviesListView>(),
     }
 
     override fun setMoviesState(view: MoviesListView?, value: ReadableMap?) {
-        println(value)
+        value?.let {
+            view?.setMoviesStateFromJS(it)
+        }
     }
 }
