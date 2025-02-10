@@ -5,10 +5,23 @@ import com.movieslist.domain.model.Movie
 sealed class MoviesScreenState {
     object Empty : MoviesScreenState()
     object Loading : MoviesScreenState()
-    data class Success(val movies: List<Movie>, val hasMore: Boolean) : MoviesScreenState()
     data class Error(val message: String) : MoviesScreenState()
-    data class LoadingMore(val movies: List<Movie>, val hasMore: Boolean) : MoviesScreenState()
-    data class SuccessMore(val movies: List<Movie>, val hasMore: Boolean) : MoviesScreenState()
+
+    sealed interface HasMovies {
+        val movies: List<Movie>
+    }
+
+    data class Success(override val movies: List<Movie>, val hasMore: Boolean) :
+        MoviesScreenState(),
+        HasMovies
+
+    data class LoadingMore(override val movies: List<Movie>, val hasMore: Boolean) :
+        MoviesScreenState(),
+        HasMovies
+
+    data class SuccessMore(override val movies: List<Movie>, val hasMore: Boolean) :
+        MoviesScreenState(),
+        HasMovies
 }
 
 enum class NativeMovieState {
