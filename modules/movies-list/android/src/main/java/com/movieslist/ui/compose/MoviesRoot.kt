@@ -22,25 +22,25 @@ fun MoviesListRootComposeView(viewModel: MoviesListViewModel) {
 
     val uiState by viewModel.uiState.collectAsState()
 
-    MoviesListTheme(isSystemInDarkTheme()) {
+    MoviesListTheme {
         Surface {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                when (val state = uiState) {
-                    is MoviesScreenState.Empty -> Text("No movies to display")
+                when (uiState) {
+                    is MoviesScreenState.Empty -> Text("No movies available")
                     is MoviesScreenState.Loading, is MoviesScreenState.LoadingMore -> CircularProgressIndicator()
                     is MoviesScreenState.Success, is MoviesScreenState.SuccessMore -> {
-                        MoviesGrid(movies = state.movies)
+                        MoviesGrid(movies = uiState.movies, viewModel.lazyGridState)
                     }
-
-                    is MoviesScreenState.Error -> Text("Error: ${state.message}")
+                    is MoviesScreenState.Error -> Text(uiState.message)
                 }
             }
         }
     }
 }
+
 
 private val MoviesScreenState.movies: List<Movie>
     get() = when (this) {
