@@ -7,7 +7,7 @@ sealed class MoviesScreenState {
     object Loading : MoviesScreenState()
     data class Success(val movies: List<Movie>, val hasMore: Boolean) : MoviesScreenState()
     data class Error(val message: String) : MoviesScreenState()
-    object LoadingMore : MoviesScreenState()
+    data class LoadingMore(val movies: List<Movie>, val hasMore: Boolean) : MoviesScreenState()
     data class SuccessMore(val movies: List<Movie>, val hasMore: Boolean) : MoviesScreenState()
 }
 

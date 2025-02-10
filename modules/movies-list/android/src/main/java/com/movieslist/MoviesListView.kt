@@ -32,12 +32,22 @@ class MoviesListView : FrameLayout {
 
     private fun setupComposeView() {
         viewModel?.let { vm ->
-            val composeView = ComposeView(context).apply {
-                setContent {
-                    MoviesListRootComposeView(vm)
-                }
-            }
-            addView(composeView, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
+            addView(
+                ComposeView(context).apply {
+                    setContent { MoviesListRootComposeView(vm) }
+                },
+                LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+            )
+        }
+    }
+
+
+    private fun getCurrentMovies(): List<Movie> {
+        return when (val currentState = viewModel?.uiState?.value) {
+            is MoviesScreenState.Success -> currentState.movies
+            is MoviesScreenState.SuccessMore -> currentState.movies
+            is MoviesScreenState.LoadingMore -> currentState.movies
+            else -> emptyList()
         }
     }
 
@@ -52,20 +62,12 @@ class MoviesListView : FrameLayout {
             NativeMovieState.LOADING -> MoviesScreenState.Loading
 
             NativeMovieState.SUCCESS, NativeMovieState.SUCCESS_MORE -> {
-                val movies = data?.toArrayList()?.mapNotNull {
-                    (it as? Map<*, *>)?.toMovie()
-                } ?: emptyList()
-
+                val movies =
+                    data?.toArrayList()?.mapNotNull { (it as? Map<*, *>)?.toMovie() } ?: emptyList()
                 if (state == NativeMovieState.SUCCESS) {
                     MoviesScreenState.Success(movies, canLoadMore)
                 } else {
-                    val currentMovies: List<Movie> =
-                        when (val currentState = viewModel?.uiState?.value) {
-                            is MoviesScreenState.Success -> currentState.movies
-                            is MoviesScreenState.SuccessMore -> currentState.movies
-                            else -> emptyList()
-                        }
-                    MoviesScreenState.SuccessMore(currentMovies + movies, canLoadMore)
+                    MoviesScreenState.SuccessMore(getCurrentMovies() + movies, canLoadMore)
                 }
             }
 
@@ -73,9 +75,13 @@ class MoviesListView : FrameLayout {
                 message ?: "An unknown error occurred"
             )
 
-            NativeMovieState.LOADING_MORE -> MoviesScreenState.LoadingMore
+            NativeMovieState.LOADING_MORE -> MoviesScreenState.LoadingMore(
+                getCurrentMovies(),
+                canLoadMore
+            )
         }
 
         viewModel?.setState(moviesScreenState)
     }
+
 }
