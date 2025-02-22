@@ -1,5 +1,7 @@
 import {API_KEY} from '@env';
 import {z} from 'zod';
+import {FetchResult} from './utils';
+import {createError, createResult, getErrorMessage} from './utils';
 
 const TRENDING_MOVIES_URL = 'https://api.themoviedb.org/3/trending/movie/week';
 
@@ -21,6 +23,8 @@ const movieSchema = z.object({
   vote_count: z.number(),
 });
 
+export type ApiMovie = z.infer<typeof movieSchema>;
+
 const responseSchema = z.object({
   page: z.number(),
   results: z.array(movieSchema),
@@ -32,23 +36,27 @@ export type MovieResponse = z.infer<typeof responseSchema>;
 
 export const fetchMovies = async (
   page: number,
-): Promise<MovieResponse | null> => {
+): Promise<FetchResult<MovieResponse>> => {
   const urlParams = new URLSearchParams({
     api_key: API_KEY,
     page: page.toString(),
-    language: 'de-DE',
+    language: 'ru-RU',
   });
 
-  const response = await fetch(
-    `${TRENDING_MOVIES_URL}?${urlParams.toString()}`,
-  );
+  try {
+    const response = await fetch(
+      `${TRENDING_MOVIES_URL}?${urlParams.toString()}`,
+    );
 
-  const data = await response.json();
-  const parsedData = responseSchema.safeParse(data);
+    const data = await response.json();
+    const parsedData = responseSchema.safeParse(data);
 
-  if (!parsedData.success) {
-    return null;
+    if (!parsedData.success) {
+      return createError('Error parsing data');
+    }
+
+    return createResult(parsedData.data);
+  } catch (error) {
+    return createError(getErrorMessage(error));
   }
-
-  return parsedData.data;
 };
