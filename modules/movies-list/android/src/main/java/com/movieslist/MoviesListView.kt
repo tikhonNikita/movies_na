@@ -16,7 +16,7 @@ import com.movieslist.ui.compose.NativeMovieState
 import com.movieslist.util.getBooleanOrDefault
 import com.movieslist.util.toMovie
 
-class MoreMoviesRequestedEvent(
+private class MoreMoviesRequestedEvent(
     surfaceId: Int,
     viewId: Int
 ) : Event<MoreMoviesRequestedEvent>(surfaceId, viewId) {

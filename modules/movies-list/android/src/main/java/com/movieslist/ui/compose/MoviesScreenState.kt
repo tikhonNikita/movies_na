@@ -3,8 +3,8 @@ package com.movieslist.ui.compose
 import com.movieslist.domain.model.Movie
 
 sealed class MoviesScreenState {
-    object Empty : MoviesScreenState()
-    object Loading : MoviesScreenState()
+    data object Empty : MoviesScreenState()
+    data object Loading : MoviesScreenState()
     data class Error(val message: String) : MoviesScreenState()
 
     sealed interface HasMovies {
