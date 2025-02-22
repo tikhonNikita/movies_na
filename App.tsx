@@ -57,8 +57,6 @@ const App = () => {
     }
   }, [currentPage, loadMoreMovies]);
 
-  console.log(moviesState);
-
   return (
     <View style={styles.container}>
       <MovieListView
@@ -66,7 +64,6 @@ const App = () => {
         style={styles.viewStyle}
         onMoreMoviesRequested={requestMoreMovies}
       />
-      <Button title="Load More" onPress={requestMoreMovies} />
     </View>
   );
 };

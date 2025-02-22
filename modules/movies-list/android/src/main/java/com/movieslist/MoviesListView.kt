@@ -4,13 +4,30 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.compose.ui.platform.ComposeView
+import com.facebook.react.bridge.ReactContext
 import com.facebook.react.bridge.ReadableMap
+import com.facebook.react.bridge.WritableMap
+import com.facebook.react.uimanager.UIManagerHelper
+import com.facebook.react.uimanager.events.Event
 import com.movieslist.domain.model.Movie
 import com.movieslist.ui.compose.MoviesListRootComposeView
 import com.movieslist.ui.compose.MoviesScreenState
 import com.movieslist.ui.compose.NativeMovieState
 import com.movieslist.util.getBooleanOrDefault
 import com.movieslist.util.toMovie
+
+class MoreMoviesRequestedEvent(
+    surfaceId: Int,
+    viewId: Int
+) : Event<MoreMoviesRequestedEvent>(surfaceId, viewId) {
+    override fun getEventName(): String {
+        return "onMoreMoviesRequested"
+    }
+
+    override fun getEventData(): WritableMap? {
+        return null
+    }
+}
 
 
 class MoviesListView : FrameLayout {
@@ -32,6 +49,7 @@ class MoviesListView : FrameLayout {
 
     private fun setupComposeView() {
         viewModel?.let { vm ->
+            vm.onEndReachedCallback = ::onReachEndOfList
             addView(
                 ComposeView(context).apply {
                     setContent { MoviesListRootComposeView(vm) }
@@ -84,4 +102,10 @@ class MoviesListView : FrameLayout {
         viewModel?.setState(moviesScreenState)
     }
 
+    fun onReachEndOfList() {
+        val reactContext = context as? ReactContext ?: return
+        val surfaceId = UIManagerHelper.getSurfaceId(reactContext)
+        val eventDispatcher = UIManagerHelper.getEventDispatcherForReactTag(reactContext, id)
+        eventDispatcher?.dispatchEvent(MoreMoviesRequestedEvent(surfaceId, id))
+    }
 }
