@@ -50,6 +50,9 @@ class MoviesListView : FrameLayout {
     private fun setupComposeView() {
         viewModel?.let { vm ->
             vm.onEndReachedCallback = ::onReachEndOfList
+
+            vm.loadCachedData()
+
             addView(
                 ComposeView(context).apply {
                     setContent { MoviesListRootComposeView(vm) }

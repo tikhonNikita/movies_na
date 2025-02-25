@@ -21,6 +21,7 @@ def isNewArchitectureEnabled() {
 }
 plugins {
   id 'org.jetbrains.kotlin.plugin.compose'
+  id 'com.google.devtools.ksp'
 }
 
 apply plugin: "com.android.library"
@@ -120,6 +121,10 @@ dependencies {
   //coil dependency
   implementation libs.coil.compose
   implementation(libs.coil.network.okhttp)
+
+  implementation libs.room.runtime
+  ksp libs.room.compiler
+  implementation libs.room.ktx
 
 }
 

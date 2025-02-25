@@ -14,13 +14,9 @@ import com.facebook.react.viewmanagers.MoviesListViewManagerDelegate
 @ReactModule(name = MoviesListViewManager.NAME)
 class MoviesListViewManager : SimpleViewManager<MoviesListView>(),
     MoviesListViewManagerInterface<MoviesListView> {
-    private val mDelegate: ViewManagerDelegate<MoviesListView>
+    private val mDelegate: ViewManagerDelegate<MoviesListView> = MoviesListViewManagerDelegate(this)
 
-    init {
-        mDelegate = MoviesListViewManagerDelegate(this)
-    }
-
-    override fun getDelegate(): ViewManagerDelegate<MoviesListView>? {
+    override fun getDelegate(): ViewManagerDelegate<MoviesListView> {
         return mDelegate
     }
 
@@ -29,7 +25,7 @@ class MoviesListViewManager : SimpleViewManager<MoviesListView>(),
     }
 
     public override fun createViewInstance(context: ThemedReactContext): MoviesListView {
-        val moviesListViewModel = MoviesListViewModel()
+        val moviesListViewModel = MoviesListViewModel(context)
         return MoviesListView(context, moviesListViewModel)
     }
 

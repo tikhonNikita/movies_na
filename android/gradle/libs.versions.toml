@@ -4,9 +4,11 @@ coilCompose = "3.0.4"
 composeBom = "2025.01.01"
 minSdk = "24"
 compileSdk = "35"
+room = "2.6.1"
 targetSdk = "34"
 ndk = "27.1.12297006"
 kotlin = "2.0.21"
+ksp = "2.0.21-1.0.28"
 agp =   "8.2.2"
 reactNativeGradle = "0.72.0"
 
@@ -21,6 +23,11 @@ kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "
 material3 = { module = "androidx.compose.material3:material3" }
 react-android = { module = "com.facebook.react:react-android" }
 react-native-gradle-plugin = { module = "com.facebook.react:react-native-gradle-plugin", version.ref = "reactNativeGradle" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 ui = { module = "androidx.compose.ui:ui" }
 ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+ksp-gradle-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+
