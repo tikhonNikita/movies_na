@@ -6,7 +6,10 @@
   "codegenConfig": {
     "name": "RNMoviesListViewSpec",
     "type": "all",
-    "jsSrcsDir": "src"
+    "jsSrcsDir": "src",
+    "android": {
+      "javaPackageName": "com.movieslist"
+    }
   },
   "author": " <> ()",
   "license": "UNLICENSED",

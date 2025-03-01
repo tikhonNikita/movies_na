@@ -8,6 +8,7 @@ import {
 } from 'react-native-movies-list';
 import {ApiMovie, fetchMovies} from './src/movies/network/api-client';
 import {isErrorResponse} from './src/movies/network/utils';
+import NativeFavoriteMoviesModule from 'react-native-movies-list/src/NativeFavoriteMoviesModule';
 
 const convertMovieToCodegenType = (movie: ApiMovie): MovieCodegenType => {
   return {
@@ -63,6 +64,14 @@ const App = () => {
         moviesState={moviesState}
         style={styles.viewStyle}
         onMoreMoviesRequested={requestMoreMovies}
+      />
+      <Button
+        title="Refresh"
+        onPress={() => {
+          NativeFavoriteMoviesModule.getFavoriteMovies().then((data) => {
+            console.log('Refreshed', data);
+          });
+        }}
       />
     </View>
   );

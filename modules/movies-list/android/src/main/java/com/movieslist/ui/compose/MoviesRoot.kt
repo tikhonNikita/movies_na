@@ -19,6 +19,8 @@ import androidx.compose.runtime.snapshotFlow
 @Composable
 fun MoviesListRootComposeView(viewModel: MoviesListViewModel) {
     val uiState by viewModel.uiState.collectAsState()
+    val favoriteMovieIds by viewModel.favoriteMovieIds.collectAsState()
+
     val lazyGridState = rememberLazyGridState()
 
 
@@ -52,7 +54,12 @@ fun MoviesListRootComposeView(viewModel: MoviesListViewModel) {
                     is MoviesScreenState.Error -> Text(state.message)
 
                     is MoviesScreenState.HasMovies -> {
-                        MoviesGrid(movies = state.movies, gridState = lazyGridState)
+                        MoviesGrid(
+                            movies = state.movies,
+                            gridState = lazyGridState,
+                            toggleFavorite = viewModel::toggleFavorite,
+                            favoriteMovieIds = favoriteMovieIds
+                        )
                     }
                 }
             }
