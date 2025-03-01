@@ -50,9 +50,6 @@ class MoviesListView : FrameLayout {
     private fun setupComposeView() {
         viewModel?.let { vm ->
             vm.onEndReachedCallback = ::onReachEndOfList
-
-            vm.loadCachedData()
-
             addView(
                 ComposeView(context).apply {
                     setContent { MoviesListRootComposeView(vm) }
@@ -79,8 +76,8 @@ class MoviesListView : FrameLayout {
         val message = value.getString("message")
 
         val moviesScreenState = when (state) {
-            NativeMovieState.EMPTY -> MoviesScreenState.Empty
-            NativeMovieState.LOADING -> MoviesScreenState.Loading
+            NativeMovieState.EMPTY -> MoviesScreenState.Empty()
+            NativeMovieState.LOADING -> MoviesScreenState.Loading()
 
             NativeMovieState.SUCCESS, NativeMovieState.SUCCESS_MORE -> {
                 val movies =

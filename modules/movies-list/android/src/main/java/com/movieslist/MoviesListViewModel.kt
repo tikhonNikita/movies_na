@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class MoviesListViewModel(context: Context) : ViewModel() {
@@ -24,11 +23,12 @@ class MoviesListViewModel(context: Context) : ViewModel() {
     private val movieRepository: MovieRepository
     private val favoriteRepository: FavoriteMovieRepository
 
+    private var cachedMovies: List<Movie>? = null
     private val _favoriteMovieIds = MutableStateFlow<Set<Int>>(emptySet())
     val favoriteMovieIds: StateFlow<Set<Int>> = _favoriteMovieIds.asStateFlow()
 
 
-    private val _uiState = MutableStateFlow<MoviesScreenState>(MoviesScreenState.Empty)
+    private val _uiState = MutableStateFlow<MoviesScreenState>(MoviesScreenState.Empty())
     val uiState: StateFlow<MoviesScreenState> = _uiState.asStateFlow()
 
     private val _paginate = MutableSharedFlow<Unit>()
@@ -46,12 +46,7 @@ class MoviesListViewModel(context: Context) : ViewModel() {
         favoriteRepository = FavoriteMovieRepository(database.favoriteMovieDao())
 
         viewModelScope.launch {
-            movieRepository.getAllMovies().collectLatest { movies ->
-                if (movies.isNotEmpty() && _uiState.value is MoviesScreenState.Loading) {
-                    _uiState.value = MoviesScreenState.Success(movies, true)
-                }
-            }
-
+            cachedMovies = movieRepository.getAllMoviesList()
             val favoriteMovies = favoriteRepository.getAllFavoriteMoviesList()
             _favoriteMovieIds.value = favoriteMovies.map { it.id }.toSet()
         }
@@ -102,26 +97,39 @@ class MoviesListViewModel(context: Context) : ViewModel() {
             when (state) {
                 is MoviesScreenState.Success -> {
                     movieRepository.saveMovies(state.movies)
+                    cachedMovies = state.movies
                     _uiState.value = state
                 }
 
                 is MoviesScreenState.SuccessMore -> {
-                    movieRepository.saveMovies(state.movies)
                     _uiState.value = state
                 }
 
-                else -> _uiState.value = state
-            }
-        }
-    }
+                is MoviesScreenState.Empty -> {
+                    if (cachedMovies.isNullOrEmpty()) {
+                        _uiState.value = state
+                    } else {
+                        _uiState.value = MoviesScreenState.Empty(cachedMovies)
+                    }
+                }
 
-    fun loadCachedData() {
-        viewModelScope.launch {
-            val cachedMovies = movieRepository.getAllMoviesList()
-            if (cachedMovies.isNotEmpty()) {
-                _uiState.value = MoviesScreenState.Success(cachedMovies, true)
-            } else {
-                _uiState.value = MoviesScreenState.Loading
+                is MoviesScreenState.Loading -> {
+                    if (cachedMovies.isNullOrEmpty()) {
+                        _uiState.value = state
+                    } else {
+                        _uiState.value = MoviesScreenState.Loading(cachedMovies)
+                    }
+                }
+
+                is MoviesScreenState.Error -> {
+                    if (cachedMovies.isNullOrEmpty()) {
+                        _uiState.value = state
+                    } else {
+                        _uiState.value = MoviesScreenState.Error(state.message, cachedMovies)
+                    }
+                }
+
+                else -> _uiState.value = state
             }
         }
     }
