@@ -88,7 +88,10 @@ class MoviesListView : FrameLayout {
                 if (state == NativeMovieState.SUCCESS) {
                     MoviesScreenState.Success(movies, canLoadMore)
                 } else {
-                    MoviesScreenState.SuccessMore(getCurrentMovies() + movies, canLoadMore)
+                    MoviesScreenState.SuccessMore(
+                        (getCurrentMovies() + movies).distinctBy { it.id },
+                        canLoadMore
+                    )
                 }
             }
 

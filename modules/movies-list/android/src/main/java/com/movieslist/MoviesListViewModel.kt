@@ -35,7 +35,6 @@ class MoviesListViewModel(context: Context) : ViewModel() {
     val paginate: SharedFlow<Unit> = _paginate.asSharedFlow()
 
     var onEndReachedCallback: (() -> Unit)? = null
-    var onMovieClickCallback: ((Movie) -> Unit)? = null
 
     private var loadMoreJob: Job? = null
     private val debounceInterval = 1000L
