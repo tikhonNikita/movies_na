@@ -43,11 +43,6 @@ import com.movieslist.ui.compose.model.toMovie
 import com.movieslist.ui.compose.model.toUiModel
 import com.movieslist.ui.compose.theme.Dimens
 import com.movieslist.ui.compose.theme.MoviesListTheme
-import androidx.compose.material3.TooltipBox
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 
 @Composable
 fun MovieGridItem(
@@ -117,10 +112,8 @@ fun MoviesGrid(
     toggleFavorite: (Movie) -> Unit
 ) {
     val moviesWithFavorites = remember(movies, favoriteMovieIds) {
-        derivedStateOf {
-            movies.map { movie ->
-                movie.toUiModel(isFavorite = favoriteMovieIds.contains(movie.id))
-            }
+        movies.map { movie ->
+            movie.toUiModel(isFavorite = favoriteMovieIds.contains(movie.id))
         }
     }
 
@@ -131,7 +124,7 @@ fun MoviesGrid(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(Dimens.cardPadding),
     ) {
-        items(moviesWithFavorites.value, key = { it.id }) { movie ->
+        items(moviesWithFavorites, key = { it.id }) { movie ->
             MovieGridItem(
                 movie = movie,
                 toggleFavorite = toggleFavorite
