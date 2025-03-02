@@ -47,8 +47,9 @@ class MoviesListViewModel(context: Context) : ViewModel() {
 
         viewModelScope.launch {
             cachedMovies = movieRepository.getAllMoviesList()
-            val favoriteMovies = favoriteRepository.getAllFavoriteMoviesList()
-            _favoriteMovieIds.value = favoriteMovies.map { it.id }.toSet()
+            favoriteRepository.getAllFavoriteMovies().collect { favoriteMovies ->
+                _favoriteMovieIds.value = favoriteMovies.map { it.id }.toSet()
+            }
         }
     }
 
