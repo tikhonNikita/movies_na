@@ -1,4 +1,4 @@
-import React, {FC, useCallback} from 'react';
+import React, {FC, useCallback, useState} from 'react';
 import {
   View,
   Text,
@@ -6,12 +6,12 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  ActivityIndicator,
   RefreshControl,
   Alert,
   ListRenderItem,
 } from 'react-native';
 import {useFavoriteMovies, MovieCodegenType} from 'react-native-movies-list';
+import {useFocusEffect} from '@react-navigation/native';
 
 const handleRemoveConfirmation = (
   movie: MovieCodegenType,
@@ -92,12 +92,6 @@ const MovieItem: FC<MovieItemProps> = ({movie, onRemove}) => {
 
 const Separator: FC = () => <View style={styles.separator} />;
 
-const LoadingState: FC = () => (
-  <View style={styles.centerContainer}>
-    <ActivityIndicator size="large" color="#6750A4" />
-  </View>
-);
-
 const EmptyState: FC = () => (
   <View style={styles.centerContainer}>
     <Text style={styles.emptyText}>No favorite movies yet</Text>
@@ -121,25 +115,27 @@ const ErrorState: FC<ErrorStateProps> = ({error, onRetry}) => (
   </View>
 );
 
-type EmptyListComponentProps = {
-  isLoading: boolean;
-};
-
-const EmptyListComponent: FC<EmptyListComponentProps> = ({isLoading}) => {
-  if (isLoading) {
-    return <LoadingState />;
-  }
+const EmptyListComponent: FC = () => {
   return <EmptyState />;
 };
 
 export const FavoritesScreen: FC = () => {
-  const {
-    favoriteMovies,
-    isLoading,
-    error,
-    removeFromFavorites,
-    refreshFavorites,
-  } = useFavoriteMovies();
+  const {favoriteMovies, error, removeFromFavorites, refreshFavorites} =
+    useFavoriteMovies();
+
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      refreshFavorites();
+    }, [refreshFavorites]),
+  );
+
+  const handleRefresh = useCallback(async () => {
+    setIsRefreshing(true);
+    await refreshFavorites();
+    setIsRefreshing(false);
+  }, [refreshFavorites]);
 
   const handleRemoveMovie = useCallback(
     async (id: number) => {
@@ -169,12 +165,12 @@ export const FavoritesScreen: FC = () => {
         contentContainerStyle={
           favoriteMovies.length === 0 ? styles.flatListEmpty : styles.flatList
         }
-        ListEmptyComponent={<EmptyListComponent isLoading={isLoading} />}
+        ListEmptyComponent={<EmptyListComponent />}
         ItemSeparatorComponent={Separator}
         refreshControl={
           <RefreshControl
-            refreshing={isLoading}
-            onRefresh={refreshFavorites}
+            refreshing={isRefreshing}
+            onRefresh={handleRefresh}
             colors={['#6750A4']}
           />
         }
