@@ -7,8 +7,8 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 const NavigationDrawer = createDrawerNavigator({
   screens: {
-    Home: MoviesListScreen,
-    Profile: FavoritesScreen,
+    'Movies List': MoviesListScreen,
+    'Favorites List': FavoritesScreen,
   },
 });
 
